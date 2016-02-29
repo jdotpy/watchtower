@@ -30,6 +30,9 @@ class MemoryStorage():
         else:
             key_results['last_error'] = event 
 
+    def reset(self):
+        self.results = {}
+
     def summary(self, keys):
         results = {}
         for key in keys:

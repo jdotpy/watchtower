@@ -5,6 +5,7 @@ from watchtower.utils import import_class
 from datetime import datetime
 from pprint import pprint
 import time
+import sys
 
 class Worker():
     def __init__(self, app):
@@ -24,5 +25,8 @@ class Worker():
             pprint(self.app.storage.summary([check.name for check in self.app.checks]))
 
 if __name__ == "__main__":
-    w = Worker(Watchtower())
+    app = Watchtower()
+    w = Worker(app)
+    if '--reset' in sys.argv:
+        app.storage.reset()
     w.run()

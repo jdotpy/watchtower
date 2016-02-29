@@ -21,6 +21,9 @@ class MongoStorage():
             'status': status
         })
 
+    def reset(self):
+        result = self.collection.delete_many({})
+
     def summary(self, keys):
         results = {}
         last_successes = self.collection.aggregate(
