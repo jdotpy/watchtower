@@ -107,6 +107,12 @@ class WebApp():
                 summary['percent_success'] = (success_count / total_count) * 100
             except ZeroDivisionError:
                 summary['percent_success'] = 0
+
+            # Add status message
+            last_check = summary.get('last_check', None)
+            if last_check:
+                last_check['status_text'] = check.get_status_label(last_check['status'])
+
             check_data[check.name] = {
                 'title': check.title,
                 'summary': summary

@@ -1,6 +1,8 @@
 html {
 	margin: 0px;
 	padding: 0px;
+	width: 100%;
+	font-family: Arial,Sans-serif;
 }
 body {
 	background-color: darkgrey;
@@ -9,10 +11,67 @@ body {
 	margin: 0px;
 }
 
+#content {
+	width: 80%;
+	float: left;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
 #header {
 	margin 0px;
-	padding: 0px;
+	padding: 1em;
 	width: 100%;
 	background-color: black;
 	color: white;
+	text-align: center;
 }
+
+#checkList {
+	width: 100%;
+	float: left;
+}
+
+.checkWrapper {
+	float: left;
+	width: 90%;
+	padding: 1em;
+	border-radius: 3px;
+	border: solid 2px black;
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.checkTitle {
+	font-weight: bold;
+	font-size: 1.5em;
+}
+
+.checkStatus {
+	float: right;
+	margin-top: .5em;
+	font-size: 1.5em;
+	font-weight: bold;
+	padding: .5em;
+	width: 5em;
+	text-align: center;
+}
+.overallStatus {
+	margin-top: .5em;
+	font-size: 1.5em;
+	font-weight: bold;
+	padding: .5em;
+	width: 5em;
+	text-align: center;
+}
+
+/*** Statuses ***/
+.status1 {
+	color: white;
+	background-color: green;
+}
+.statusUnknown {
+	color: black;
+	background-color: white;
+}
+/*** /Statuses ***/

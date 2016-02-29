@@ -2,20 +2,53 @@
 
 {% block content %}
 	<h2>Overall Status</h2>
-	<div class="overallStatus"></div>
+	{% if not overall_status %}
+		<div class="overallStatus statusUnknown">Unknown</div>
+	{% else %}
+		<div class="overallStatus status{{ overall_status}}">{{ overall_status_text }}</div>
+	{% endif %}
 	
 	<h2>Component Status</h2>
+	<div id="checkList">
 	{% for name, check in summary_by_check.items() %}
-	<div class="checkWrapper" data-name="{{ name }}">
-		<div class="checkTitle">{{ check.title }}</div>
-		<div class="checkLastCheck">Last Check:{{ check.summary.last_check.timestamp }}<div>
-		<div class="checkUpPercent">Success Percent{{ check.summary.percent_success}}<div>
-		{% if check.summary.last_check.success %}
-			<div class="checkLastDown">Last Error:{{ check.summary.last_error }}<div>
-		{% else %}
-			<div class="checkLastSuccess">Last Success:{{ check.summary.last_success }}<div>
-		{% endif %}
-		<div class="checkStatus status{{ check.summary.last_check.status }}">Current Status: {{ check.summary.last_check.status }}</div>
-	</div>
+		<div class="checkWrapper" data-name="{{ name }}">
+			{% if not check.summary.last_check %}
+				<div class="checkStatus statusUnknown">Unknown</div>
+			{% else %}
+				<div class="checkStatus status{{ check.summary.last_check.status }}">
+					{{ check.summary.last_check.status_text }}
+				</div>
+			{% endif %}
+
+			<div class="checkTitle">{{ check.title }}</div>
+			<div class="checkLastCheck">Last Check:
+				{% if check.summary.last_check.timestamp %}
+					{{ check.summary.last_check.timestamp }}
+				{% else %}
+					Never
+				{% endif %}
+			</div>
+
+			{% if check.summary.last_check.success %}
+			<div class="checkLastDown">Last Error:
+				{% if check.summary.last_error %}
+					{{ check.summary.last_error }}
+				{% else %}
+					Never
+				{% endif %}
+			</div>
+			{% else %}
+			<div class="checkLastSuccess">Last Success:
+				{% if check.summary.last_success %}
+					{{ check.summary.last_success }}<div>
+				{% else %}
+					Never
+				{% endif %}
+			</div>
+			{% endif %}
+
+			<div class="checkUpPercent">Uptime: {{ check.summary.percent_success }}%</div>
+		</div>
 	{% endfor %}
+	</div>
 {% endblock content %}

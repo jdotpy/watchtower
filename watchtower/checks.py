@@ -11,9 +11,9 @@ class BaseCheck():
         STATUS_ERROR: "Error"
     }
 
-    @staticmethod
-    def _get_status_label(status):
-        return self.STATUSES.get(status, '<Unknown>')
+    @classmethod
+    def get_status_label(cls, status):
+        return cls.STATUSES.get(status, '<Unknown>')
 
     def __init__(self, name, title=None, options=None):
         self.name = name
