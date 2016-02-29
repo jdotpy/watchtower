@@ -20,7 +20,7 @@ class Worker():
                     check, result
                 ))
 
-            time.sleep(3)
+            time.sleep(30)
             pprint(self.app.storage.summary([check.name for check in self.app.checks]))
 
 if __name__ == "__main__":

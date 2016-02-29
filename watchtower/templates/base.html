@@ -15,21 +15,6 @@
 
 	<div id="content">
 	{% block content %}
-		<h2>Overall Status</h2>
-		<div class="overallStatus">
-			{{ settings }}
-		</div>
-		
-		<h2>Component Status</h2>
-		{% for check in checks %}
-		<div class="checkWrapper" data-name="{{ check.name }}">
-			<div class="checkTitle">{{ check.title }}</div>
-			<div class="checkLastCheck">{{ check.up_percent }}</div>
-			<div class="checkUpPercent">{{ check.up_percent }}</div>
-			<div class="checkLastDown">{{ check.last_down }}</div>
-			<div class="checkStatus status{{ check.status }}">{{ check.status }}</div>
-		</div>
-		{% endfor %}
 	{% endblock content %}
 	</div>
   </body>

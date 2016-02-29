@@ -23,14 +23,20 @@ class BaseCheck():
     def check(self):
         return self.STATUS_OK
 
-class RandomCheck():
+class RandomCheck(BaseCheck):
     def check(self):
         return random.choice(self.STATUSES.values())
 
 class SimpleWeb(BaseCheck):
     def check(self):
-        response = requests.get(self.options['url'])
+        verify_ssl = self.options.get('verify_ssl', True)
+        try:
+            response = requests.get(self.options['url'], verify=verify_ssl)
+        except Exception as e:
+            print("Web check got error:", e)
+            return self.STATUS_ERROR
         if response.status_code == 200:
+            print('Web check got status:', response.status_code)
             return self.STATUS_OK
         else:
             return self.STATUS_ERROR

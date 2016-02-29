@@ -2,10 +2,10 @@
 
 {% block content %}
 	<h2>Overall Status</h2>
-	{% if not overall_status %}
+	{% if not overall.status %}
 		<div class="overallStatus statusUnknown">Unknown</div>
 	{% else %}
-		<div class="overallStatus status{{ overall_status}}">{{ overall_status_text }}</div>
+		<div class="overallStatus status{{ overall.status}}">{{ overall.status_text }}</div>
 	{% endif %}
 	
 	<h2>Component Status</h2>
@@ -40,7 +40,7 @@
 			{% else %}
 			<div class="checkLastSuccess">Last Success:
 				{% if check.summary.last_success %}
-					{{ check.summary.last_success }}<div>
+					{{ check.summary.last_success }}
 				{% else %}
 					Never
 				{% endif %}

@@ -70,6 +70,14 @@ body {
 	color: white;
 	background-color: green;
 }
+.status2 {
+	color: white;
+	background-color: yellow;
+}
+.status3 {
+	color: white;
+	background-color: red;
+}
 .statusUnknown {
 	color: black;
 	background-color: white;

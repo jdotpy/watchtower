@@ -3,6 +3,7 @@ from jinja2 import Template
 from jinja2 import Environment, PackageLoader, FileSystemLoader
 from werkzeug.wrappers import Request, Response
 from werkzeug.wsgi import SharedDataMiddleware
+from .checks import BaseCheck
 import os
 
 from .utils import import_class
@@ -97,6 +98,7 @@ class WebApp():
         checks = self.app.checks
         check_names = [check.name for check in checks]
         checks_summary = self.app.storage.summary(check_names)
+        statuses = []
         check_data = {}
         for check in checks:
             summary = checks_summary.get(check.name, None)
@@ -112,11 +114,20 @@ class WebApp():
             last_check = summary.get('last_check', None)
             if last_check:
                 last_check['status_text'] = check.get_status_label(last_check['status'])
+                statuses.append(last_check['status'])
 
             check_data[check.name] = {
                 'title': check.title,
                 'summary': summary
             }
+        try:
+            overall_status = max(statuses)
+        except ValueError:
+            overall_status = None
         return self.render_template("dashboard.html", {
+            'overall': {
+                'status': overall_status,
+                'status_text': BaseCheck.get_status_label(overall_status)
+            },
             'summary_by_check': check_data
         })
