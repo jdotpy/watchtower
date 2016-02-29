@@ -1,0 +1,18 @@
+html {
+	margin: 0px;
+	padding: 0px;
+}
+body {
+	background-color: darkgrey;
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+
+#header {
+	margin 0px;
+	padding: 0px;
+	width: 100%;
+	background-color: black;
+	color: white;
+}

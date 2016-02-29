@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<h2>Overall Status</h2>
+	<div class="overallStatus"></div>
+	
+	<h2>Component Status</h2>
+	{% for name, check in summary_by_check.items() %}
+	<div class="checkWrapper" data-name="{{ name }}">
+		<div class="checkTitle">{{ check.title }}</div>
+		<div class="checkLastCheck">Last Check:{{ check.summary.last_check.timestamp }}<div>
+		<div class="checkUpPercent">Success Percent{{ check.summary.percent_success}}<div>
+		{% if check.summary.last_check.success %}
+			<div class="checkLastDown">Last Error:{{ check.summary.last_error }}<div>
+		{% else %}
+			<div class="checkLastSuccess">Last Success:{{ check.summary.last_success }}<div>
+		{% endif %}
+		<div class="checkStatus status{{ check.summary.last_check.status }}">Current Status: {{ check.summary.last_check.status }}</div>
+	</div>
+	{% endfor %}
+{% endblock content %}

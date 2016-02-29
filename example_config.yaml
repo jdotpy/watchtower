@@ -1,0 +1,14 @@
+app_name: "Important Website Statuses"
+storage: 
+        type: 'watchtower.storage.mongodb.MongoStorage'
+checks: 
+        google:
+                title: "Google website status"
+                type: watchtower.checks.SimpleWeb
+                options:
+                        url: "https://google.com/"
+        gh:
+                title: "Github website status"
+                type: watchtower.checks.SimpleWeb
+                options:
+                        url: "https://github.com"
