@@ -15,7 +15,7 @@ class Worker():
         while True:
             print('Doing iteration')
             for check in self.app.checks:
-                result = check.check()
+                result = check.run()
                 self.app.storage.log_result(check.name, datetime.now(), result)
                 print('Check {} got result: {}'.format(
                     check, result

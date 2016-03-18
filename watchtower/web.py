@@ -20,24 +20,55 @@ class Watchtower():
             self.settings.get('storage.type', self.DEFAULT_STORAGE),
             self.settings.get('storage.options', {}),
         )
-        self.checks = self._parse_checks(self.settings.get('checks', {}))
+
+        self.alerts = self._parse_alerts(self.settings.get('alerts', {}))
+        print('\tAlerts:')
+        for alert_name, alert in self.alerts.items():
+            print('\t\t{}: {}'.format(
+                alert.__class__.__name__,
+                alert.name
+            ))
+
+        self.checks = self._parse_checks(self.settings.get('checks', []))
         print('\tChecks:')
         for check in self.checks:
             print('\t\t{}: {}'.format(
-                str(check.__class__),
+                check.__class__.__name__,
                 check.name
             ))
 
     def _parse_checks(self, checks_config):
         checks = []
-        for name, check_info in checks_config.items():
+        for check_info in checks_config:
+            name = check_info['name']
+            title = check_info.get('title', None)
+
+            # Parse Alert
+            alerts = []
+            alert_names = check_info["alerts"]
+            for alert_name in alert_names:
+                alert = self.alerts.get(alert_name, None)
+                if alert is None:
+                    continue
+                else:
+                    alerts.append(alert)
+
+            # Make Alert of Type
             type_path = check_info['type']
             type_class = import_class(type_path)
-            title = check_info.get('title', None)
             options = check_info.get('options', {})
-            checks.append(type_class(name, title, options))
+            checks.append(type_class(name, title, options, alerts))
         return checks
 
+    def _parse_alerts(self, alerts_config):
+        alerts = {}
+        for name, alert_info in alerts_config.items():
+            type_path = alert_info['type']
+            type_class = import_class(type_path)
+            options = alert_info.get('options', {})
+            issue_options = alert_info.get('issues', {})
+            alerts[name] = type_class(name, options, issue_options)
+        return alerts
 
     def _load_storage(self, path, settings):
         StorageClass = import_class(path)
@@ -60,7 +91,6 @@ class WebApp():
             self.__call__ = SharedDataMiddleware(self.__call__, {
                 '/static':  self.app_dir + '/static'
             })
-
 
     def __call__(self, environ, start_response):
         request = Request(environ)
@@ -93,7 +123,6 @@ class WebApp():
         return template.render(context)
 
     def dashboard(self, request):
-
         # Create Results
         checks = self.app.checks
         check_names = [check.name for check in checks]

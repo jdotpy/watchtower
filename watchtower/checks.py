@@ -15,10 +15,19 @@ class BaseCheck():
     def get_status_label(cls, status):
         return cls.STATUSES.get(status, '<Unknown>')
 
-    def __init__(self, name, title=None, options=None):
+    def __init__(self, name, title=None, options=None, alerts=None):
         self.name = name
         self.title = title or name
         self.options = options or {}
+        self.alerts = alerts or []
+
+    def run(self):
+        status = self.check()
+        if status != self.STATUS_OK:
+            for alert in self.alerts:
+                if status >= alert.MIN_STATUS:
+                    alert.trigger(self, status)
+        return status
 
     def check(self):
         return self.STATUS_OK

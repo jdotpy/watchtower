@@ -1,14 +1,27 @@
 app_name: "Important Website Statuses"
 storage: 
         type: 'watchtower.storage.mongodb.MongoStorage'
+alerts:
+        basic_web:
+                type: watchtower.alerts.Webhook
+                options: 
+                        url: "https://google.com/"
+        basic_email:
+                type: watchtower.alerts.SimpleSMTP
+                options:
+                        server: localhost
+                        port: 25
 checks: 
-        google:
+        -
+                name: google
                 title: "Google website status"
+                alerts: ["basic_email", "basic_web"]
                 type: watchtower.checks.SimpleWeb
                 options:
                         url: "https://google.com/"
-        gh:
+        -       name: gh
                 title: "Github website status"
+                alerts: ["basic_web"]
                 type: watchtower.checks.SimpleWeb
                 options:
                         url: "https://github.com"

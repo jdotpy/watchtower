@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+	<br><br>
 	<h2>Overall Status</h2>
 	{% if not overall.status %}
 		<div class="overallStatus statusUnknown">Unknown</div>
@@ -8,6 +9,7 @@
 		<div class="overallStatus status{{ overall.status}}">{{ overall.status_text }}</div>
 	{% endif %}
 	
+	<br><br><br>
 	<h2>Component Status</h2>
 	<div id="checkList">
 	{% for name, check in summary_by_check.items() %}
